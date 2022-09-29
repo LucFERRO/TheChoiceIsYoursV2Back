@@ -56,6 +56,7 @@ require('./routes/users/updateUser')(app)
 require('./routes/users/deleteUser')(app)
 
 require('./routes/auth/login')(app)
+require('./routes/auth/loginToken')(app)
 
 app.use(({res : ApiException}: any) => {
     const message = 'Impossible de trouver la ressource demandée ! Vous pouvez essayer une autre URL.'

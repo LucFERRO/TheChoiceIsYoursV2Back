@@ -19,7 +19,7 @@ const { User } = require('../../database/connect')
   * /api/auth/login:
   *  post:
   *      tags: [Authentification]
-  *      description: Simulate succesfull login
+  *      description: Login
   *      consumes:
   *       - application/json
   *      parameters:
@@ -27,24 +27,38 @@ const { User } = require('../../database/connect')
   *         in: body
   *         required: true
   *         type: object
-  *         default: {"username": "string"}
+  *         default: {"username": "string", "password": "string"}
   *      responses:
   *        200:
   *          description: Returns tokens.
   */
 module.exports = (app: Application) => {
   app.post("/api/auth/login", (req, res) => {
-    const username = req.body.username
-    const user = { name: username }
 
-    const accessToken = generateAccessToken(user)
-    const refreshToken = jwt.sign(user, process.env.REFRESH_TOKEN_SECRET)
-    // refreshTokens.push(refreshToken)
-    res.json({accessToken: accessToken, refreshToken: refreshToken})
-  });
+    User.findAll()
+    .then(async (users: any) => {
+
+        const user = users.find((user : userTypes) => user.username == req.body.username)
+        
+        if (user == null) {
+            return res.status(400).send('Cannot find user')
+        }
+        let message : string = ''
+        if (await bcrypt.compare(req.body.password, user.password)) {
+            message = "Bon mot de passe"
+            const accessToken = jwt.sign({ name: user.username }, process.env.ACCESS_TOKEN_SECRET)
+            const refreshToken = jwt.sign({ name: user.username }, process.env.REFRESH_TOKEN_SECRET)
+            // refreshTokens.push(refreshToken)
+            return res.json({accessToken: accessToken, refreshToken: refreshToken})
+        } else {
+            message = "Mauvais mot de passe"
+        }
+        res.json(message)
+    })
+    .catch((error : ApiException) => {
+            const message = `La liste des users n'a pas pu être récupérée. Réessayer dans quelques instants.`
+            res.status(500).json({message, data : error})
+        })
+
+    })
 };
-
-function generateAccessToken(user : any) {
-    // return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {expiresIn: '30s'})
-    return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET)
-}
