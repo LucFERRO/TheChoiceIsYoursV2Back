@@ -1,11 +1,11 @@
 import { Application } from "express";
 import { UniqueConstraintError, ValidationError } from "sequelize";
-import { ApiException } from "../types/exception";
-import { userTypes } from "../types/user";
+import { ApiException } from "../../types/exception";
+import { userTypes } from "../../types/user";
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 
-const { User } = require("../database/connect");
+const { User } = require('../../database/connect')
 
 /**
  * @swagger

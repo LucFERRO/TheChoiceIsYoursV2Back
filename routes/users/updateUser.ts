@@ -1,9 +1,9 @@
 import { Application } from "express";
 import { ValidationError } from "sequelize";
-import { ApiException } from "../types/exception";
-import { userTypes } from "../types/user";
+import { ApiException } from "../../types/exception";
+import { userTypes } from "../../types/user";
 
-const { User } = require("../database/connect");
+const { User } = require('../../database/connect')
 
 /**
   * @openapi
