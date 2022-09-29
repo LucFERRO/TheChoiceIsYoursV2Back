@@ -45,19 +45,19 @@ module.exports = (app: Application) => {
         }
         let message : string = ''
         if (await bcrypt.compare(req.body.password, user.password)) {
-            message = "Bon mot de passe"
+            message = "Good"
             const accessToken = jwt.sign({ name: user.username }, process.env.ACCESS_TOKEN_SECRET)
             const refreshToken = jwt.sign({ name: user.username }, process.env.REFRESH_TOKEN_SECRET)
             const data = {accessToken: accessToken, refreshToken: refreshToken}
             // refreshTokens.push(refreshToken)
             return res.json({msg : message, data : data})
         } else {
-            message = "Mauvais mot de passe"
+            message = "Wrong password"
         }
         res.json(message)
     })
     .catch((error : ApiException) => {
-            const message = `La liste des users n'a pas pu être récupérée. Réessayer dans quelques instants.`
+            const message = `Could not get users list.`
             res.status(500).json({message, data : error})
         })
 

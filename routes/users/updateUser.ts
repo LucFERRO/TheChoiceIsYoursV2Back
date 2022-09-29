@@ -37,10 +37,10 @@ module.exports = (app: Application) => {
       .then(() => {
        return User.findByPk(id).then((user: userTypes) => {
           if (user === null){
-            const message = "Le user demandé n'existe pas. Réessayer avec un autre identifiant."
+            const message = "Requested user does not exist."
             return res.status(404).json({message})
           }
-            const message = `L'utilisateur ${user.username} a bien été modifié.`;
+            const message = `User ${user.username} successfully updated`;
             res.json({ message, data: user });
           })
       })
@@ -48,7 +48,7 @@ module.exports = (app: Application) => {
         if(error instanceof ValidationError){
           return res.status(400).json({message: error.message, data : error})
         }
-        const message = `L'utilisateur n'a pas pu être modifié. Réessayer dans quelques instants.`;
+        const message = `Could not update the user.`;
         res.status(500).json({ message, data: error });
       });
   });

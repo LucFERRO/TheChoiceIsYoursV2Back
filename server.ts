@@ -16,9 +16,8 @@ import {Response, Request} from 'express'
 
 app.use(express.json())
 
-
 // Pour créer DB, à commenter sinon
-sequelize.initDb()
+// sequelize.initDb()
 
 const port = process.env.PORT || 5000
 app.listen(port, () => {
