@@ -2,6 +2,8 @@ import { Application } from "express";
 import { UniqueConstraintError, ValidationError } from "sequelize";
 import { ApiException } from "../types/exception";
 import { userTypes } from "../types/user";
+const bcrypt = require('bcrypt')
+const jwt = require('jsonwebtoken')
 
 const { User } = require("../database/connect");
 
@@ -31,15 +33,24 @@ const { User } = require("../database/connect");
   *          description: Returns a mysterious string.
   */
 module.exports = (app: Application) => {
-  app.post("/api/users", (req, res) => {
-    User.create(req.body)
-      .then((user: userTypes) => {
-        const message: string = `Le user ${req.body.name} a bien été crée.`;
+  app.post("/api/users", async (req, res) => {
+    const { username, firstname, lastname, date_of_birth, email, profile_picture } = req.body
+    let hashedPassword = await bcrypt.hash(req.body.password, 10);
+    User.create({ 
+        username : username, 
+        password : hashedPassword, 
+        firstname : firstname, 
+        lastname : lastname, 
+        date_of_birth : date_of_birth, 
+        email : email, 
+        profile_picture : profile_picture
+    }).then((user: userTypes) => {
+        const message: string = `Le user ${username} a bien été crée.`;
         res.json({ message, data: user });
-      })
-      .catch((error : ApiException) => {
+        })
+        .catch((error : ApiException) => {
         if(error instanceof ValidationError){
-          return res.status(400).json({message: error.message, data : error})
+            return res.status(400).json({message: error.message, data : error})
         }
         const message = `L'utilisateur n'a pas pu être ajouté. Réessayer dans quelques instants.`
         res.status(500).json({message, data : error})
