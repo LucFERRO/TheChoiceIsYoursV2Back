@@ -1,52 +1,34 @@
 const users = [
   {
-    name: "Alexis",
-    image: "http://www.rien.com",
-    description: "aucune",
-    mail: "test@test.com",
+    username: "Test",
+    password: "1234",
+    firstname: "Test",
+    lastname: "Gaet",
+    date_of_birth: "2004-12-31T23:00:00.000Z",
+    email: "gaetan@gaetan.fr",
+    biography: '',
+    profile_picture: ''
   },
-  {
-    name: "LucF",
-    image: "http://www.rien.com",
-    description: "aucune",
-    mail: "test2@test.com",
-  },
-  {
-    name: "Christophe",
-    image: "http://www.rien.com",
-    description: "aucune",
-    mail: "test3@test.com",
-  },
-  {
-    name: "LucV",
-    mail: "test4@test.com",
-    image: "http://www.rien.com",
-    description: "aucune",
-  },
-  {
-    name: "Florent",
-    image: "http://www.rien.com",
-    description: "aucune",
-    mail: "test5@test.com",
-  },
-  {
-    name: "Remy",
-    image: "http://www.rien.com",
-    description: "aucune",
-    mail: "test6@test.com",
-  },
-  {
-    name: "Nicolas",
-    image: "http://www.rien.com",
-    description: "aucune",
-    mail: "test7@test.com",
-  },
-  {
-    name: "Menfou",
-    mail: "manfou@test.com",
-    image: "http://www.rien.com",
-    description: "menfou",
-  },
+//   {
+//     username: "Gaetan2",
+//     email: "gaetan2@gaetan.fr",
+//     password: "$2b$10$KagIgrzOn3GYFbvgA8WUluUNmOpYmwbCQoyVYNz7f4PNQV.Bwf2aS",
+//     firstname: "Gaetan",
+//     lastname: "Gaet",
+//     date_of_birth: "2004-12-31T23:00:00.000Z",
+//     biography: null,
+//     profile_picture: null
+//   },
+//   {
+//     username: "Luc",
+//     email: "luc@luc.fr",
+//     password: "$2b$10$KagIgrzOn3GYFbvgA8WUluUNmOpYmwbCQoyVYNz7f4PNQV.Bwf2aS",
+//     firstname: "Gaetan",
+//     lastname: "Gaet",
+//     date_of_birth: "2004-12-31T23:00:00.000Z",
+//     biography: null,
+//     profile_picture: null
+//   },
 ];
 
 module.exports = users;
