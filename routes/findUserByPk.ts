@@ -1,6 +1,6 @@
 import { Application } from "express"
 import { ApiException } from "../types/exception"
-import { userTypes } from "../types/template"
+import { userTypes } from "../types/user"
 
 const { User } = require('../database/connect')
   

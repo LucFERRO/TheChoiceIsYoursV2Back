@@ -1,7 +1,7 @@
 import { Application } from "express"
 import { Error } from "sequelize"
 import { ApiException } from "../types/exception"
-import { userTypes } from "../types/template"
+import { userTypes } from "../types/user"
 
 const {User} = require('../database/connect')
 

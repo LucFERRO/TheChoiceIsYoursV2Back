@@ -1,7 +1,7 @@
 import { Application } from "express";
 import { UniqueConstraintError, ValidationError } from "sequelize";
 import { ApiException } from "../types/exception";
-import { userTypes } from "../types/template";
+import { userTypes } from "../types/user";
 
 const { User } = require("../database/connect");
 
@@ -25,7 +25,7 @@ const { User } = require("../database/connect");
   *         in: body
   *         required: true
   *         type: object
-  *         default: {"name": "Template","mail": "Template@gmail.com","description": "Template","image": "https://picsum.photos/200/300"}
+  *         default: {    "username": "string","password":"string","firstname": "string","lastname": "string","date_of_birth": "date","email": "email","biography": "string","profile_picture": null}
   *      responses:
   *        200:
   *          description: Returns a mysterious string.

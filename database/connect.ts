@@ -1,4 +1,5 @@
 import { DataTypes } from "sequelize"
+import { userTypes } from "../types/user"
 let users = require('../database/mock-user')
 const {Sequelize} = require('sequelize')
 const UserModel = require('../models/users')
@@ -29,15 +30,19 @@ const initDb = () => {
 
         return sequelize.sync({force: true}).then(()=> {
             
-            users.map((user: { name: string; mail: string; description: string; image: string; }) => {
+            users.map((user: userTypes) => {
                 User.create({
-                    name: user.name,
-                    mail: user.mail,
-                    description: user.description,
-                    image: user.image
-                }).then((alexis: { toJSON: () => string }) => console.log(alexis.toJSON()))
+                    username: user.username,
+                    password: user.password,
+                    firstname: user.firstname,
+                    lastname: user.lastname,
+                    date_of_birth: user.date_of_birth,
+                    email: user.email,
+                    biography: user.biography,
+                    profile_picture: user.profile_picture
+                }).then((response: { toJSON: () => string }) => console.log(response.toJSON()))
             })
-            console.log('La base de donné user a bien été initialisée !')
+            console.log('La base de données user a bien été initialisée !')
     })
 }
 

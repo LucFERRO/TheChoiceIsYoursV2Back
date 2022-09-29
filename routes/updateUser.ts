@@ -1,7 +1,7 @@
 import { Application } from "express";
 import { ValidationError } from "sequelize";
 import { ApiException } from "../types/exception";
-import { userTypes } from "../types/template";
+import { userTypes } from "../types/user";
 
 const { User } = require("../database/connect");
 
@@ -23,7 +23,7 @@ const { User } = require("../database/connect");
   *         in: body
   *         required: true
   *         type: object
-  *         default: {"name": "Template","mail": "Template@gmail.com","description": "Template","image": "https://picsum.photos/200/300"}
+  *         default: {    "username": "string","password":"string","firstname": "string","lastname": "string","date_of_birth": "date","email": "email","biography": "string","profile_picture": null}
   *      responses:
   *        200:
   *          description: Returns a mysterious string.
@@ -40,7 +40,7 @@ module.exports = (app: Application) => {
             const message = "Le user demandé n'existe pas. Réessayer avec un autre identifiant."
             return res.status(404).json({message})
           }
-            const message = `L'utilisateur ${user.name} a bien été modifié.`;
+            const message = `L'utilisateur ${user.username} a bien été modifié.`;
             res.json({ message, data: user });
           })
       })
@@ -48,7 +48,7 @@ module.exports = (app: Application) => {
         if(error instanceof ValidationError){
           return res.status(400).json({message: error.message, data : error})
         }
-        const message = `L'utilisateur' n'a pas pu être modifié. Réessayer dans quelques instants.`;
+        const message = `L'utilisateur n'a pas pu être modifié. Réessayer dans quelques instants.`;
         res.status(500).json({ message, data: error });
       });
   });
