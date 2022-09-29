@@ -26,7 +26,7 @@ const { User } = require('../../database/connect')
   *         default: {    "username": "string","password":"string","firstname": "string","lastname": "string","date_of_birth": "date","email": "email","biography": "string","profile_picture": null}
   *      responses:
   *        200:
-  *          description: Returns a mysterious string.
+  *          description: Update the user of given id.
   */
 module.exports = (app: Application) => {
   app.put("/api/users/:id", (req, res) => {

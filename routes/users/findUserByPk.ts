@@ -18,7 +18,7 @@ const { User } = require('../../database/connect')
   *         default: 1
   *      responses:
   *        200:
-  *          description: Returns a mysterious string.
+  *          description: Get the user of given id.
   */
 module.exports = (app : Application) => {
   app.get('/api/users/:id', (req, res) => {

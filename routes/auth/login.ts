@@ -30,7 +30,7 @@ const { User } = require('../../database/connect')
   *         default: {"username": "string", "password": "string"}
   *      responses:
   *        200:
-  *          description: Returns tokens.
+  *          description: Login. Returns tokens if successful login.
   */
 module.exports = (app: Application) => {
   app.post("/api/auth/login", (req, res) => {
@@ -48,8 +48,9 @@ module.exports = (app: Application) => {
             message = "Bon mot de passe"
             const accessToken = jwt.sign({ name: user.username }, process.env.ACCESS_TOKEN_SECRET)
             const refreshToken = jwt.sign({ name: user.username }, process.env.REFRESH_TOKEN_SECRET)
+            const data = {accessToken: accessToken, refreshToken: refreshToken}
             // refreshTokens.push(refreshToken)
-            return res.json({accessToken: accessToken, refreshToken: refreshToken})
+            return res.json({msg : message, data : data})
         } else {
             message = "Mauvais mot de passe"
         }

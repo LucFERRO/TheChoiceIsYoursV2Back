@@ -1,7 +1,7 @@
 import { DataTypes } from "sequelize"
 import { userTypes } from "../types/user"
 let users = require('../database/mock-user')
-const {Sequelize} = require('sequelize')
+const { Sequelize } = require('sequelize')
 const UserModel = require('../models/users')
 
 const sequelize = new Sequelize (
@@ -13,14 +13,17 @@ const sequelize = new Sequelize (
         dialect:'postgres',
         port: 5432,
         dialectOptions: {
-            timezone: 'Etc/GMT-2'
-        }
+            useUTC: false,
+            dateStrings: true,
+            typeCast: true
+      },
+      timezone: '+02:00'
     }
 )
 
 sequelize.authenticate()
-    .then(() => console.log("La connextion à la base de donnée à bien était établie"))
-    .catch((error : Error) => console.error(`Impossible de se connecter à la base de données ${error}`)
+    .then(() => console.log('Link established'))
+    .catch((error : Error) => console.error(`Error: ${error}`)
     )
 
 const User = UserModel(sequelize, DataTypes)
@@ -42,11 +45,12 @@ const initDb = () => {
                     profile_picture: user.profile_picture
                 }).then((response: { toJSON: () => string }) => console.log(response.toJSON()))
             })
-            console.log('La base de données user a bien été initialisée !')
+            console.log('Database created')
     })
 }
 
 
 module.exports = {
-    initDb, User
+    initDb, 
+    User
 }

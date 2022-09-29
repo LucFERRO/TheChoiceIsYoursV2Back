@@ -18,11 +18,11 @@ app.use(express.json())
 
 
 // Pour créer DB, à commenter sinon
-// sequelize.initDb()
+sequelize.initDb()
 
 const port = process.env.PORT || 5000
 app.listen(port, () => {
-    console.log(`Serveur démarré sur le port ${port}...`)
+    console.log(`Listening on port ${port}...`)
 })
 
 app.get("/", (req : Request, res : Response) => {
@@ -56,9 +56,8 @@ require('./routes/users/updateUser')(app)
 require('./routes/users/deleteUser')(app)
 
 require('./routes/auth/login')(app)
-require('./routes/auth/loginToken')(app)
 
 app.use(({res : ApiException}: any) => {
-    const message = 'Impossible de trouver la ressource demandée ! Vous pouvez essayer une autre URL.'
+    const message = 'Ressource not found.'
     return ApiException.status(404).json({message})
 })

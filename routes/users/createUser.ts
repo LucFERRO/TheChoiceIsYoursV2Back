@@ -30,7 +30,7 @@ const { User } = require('../../database/connect')
   *         default: {    "username": "string","password":"string","firstname": "string","lastname": "string","date_of_birth": "date","email": "email","biography": "string","profile_picture": null}
   *      responses:
   *        200:
-  *          description: Returns a mysterious string.
+  *          description: Create a new user.
   */
 module.exports = (app: Application) => {
   app.post("/api/users", async (req, res) => {
@@ -45,14 +45,14 @@ module.exports = (app: Application) => {
         email : email, 
         profile_picture : profile_picture
     }).then((user: userTypes) => {
-        const message: string = `Le user ${username} a bien été crée.`;
+        const message: string = `User ${username} successfully created.`;
         res.json({ message, data: user });
         })
         .catch((error : ApiException) => {
         if(error instanceof ValidationError){
             return res.status(400).json({message: error.message, data : error})
         }
-        const message = `L'utilisateur n'a pas pu être ajouté. Réessayer dans quelques instants.`
+        const message = `Could not create new user.`
         res.status(500).json({message, data : error})
     })
   });

@@ -18,7 +18,7 @@ const { User } = require('../../database/connect')
   *         type: integer
   *      responses:
   *        200:
-  *          description: Returns a mysterious string. 
+  *          description: Delete an user. 
   */
 module.exports = (app :Application) => {
   app.delete('/api/users/:id', (req, res) => {
