@@ -41,7 +41,7 @@ module.exports = (app: Application) => {
         const user = users.find((user : userTypes) => user.username == req.body.username)
         
         if (user == null) {
-            return res.status(400).send('Cannot find user')
+            return res.status(400).send('Username and password do not match.')
         }
         let message : string = ''
         if (await bcrypt.compare(req.body.password, user.password)) {
@@ -50,11 +50,12 @@ module.exports = (app: Application) => {
             const refreshToken = jwt.sign({ name: user.username }, process.env.REFRESH_TOKEN_SECRET)
             const data = {accessToken: accessToken, refreshToken: refreshToken}
             // refreshTokens.push(refreshToken)
-            return res.json({msg : message, data : data})
+            return res.status(200).json(data)
         } else {
-            message = "Wrong password"
+            message = "Wrong password for this username."
+            // A changer en 401 avec les interceptors Axios
+            return res.status(200).json(message)
         }
-        res.json(message)
     })
     .catch((error : ApiException) => {
             const message = `Could not get users list.`

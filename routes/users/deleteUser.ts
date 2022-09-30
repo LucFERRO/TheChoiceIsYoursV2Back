@@ -25,7 +25,7 @@ module.exports = (app :Application) => {
     User.findByPk(req.params.id).then((user: userId) => {
       if (user === null){
         const message = "Requested user does not exist."
-        return res.status(404).json({message})
+        return res.status(404).json({message : message})
       }
 
       const userDeleted = user;

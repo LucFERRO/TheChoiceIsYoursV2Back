@@ -19,12 +19,10 @@ module.exports = (app : Application) => {
     app.get('/api/users', (req,res) => {
         User.findAll()
         .then((users: userTypes) => {
-            const message : string = 'List of all users.'
-            res.json({message, data: users})
+            res.status(200).json(users)
         })
         .catch((error : ApiException) => {
-            const message = `Could not get the list of all users.`
-            res.status(500).json({message, data : error})
+            res.status(500).json(error)
         })
     })
 }
