@@ -39,22 +39,21 @@ module.exports = (app: Application) => {
     .then(async (users: any) => {
 
         const user = users.find((user : userTypes) => user.username == req.body.username)
+        let message : string = ''
         
         if (user == null) {
-            return res.status(400).send('Username and password do not match.')
+            message = 'No such username exists.'
+            return res.status(400).json({ userFound : false, message : message })
         }
-        let message : string = ''
         if (await bcrypt.compare(req.body.password, user.password)) {
             message = "Good"
             const accessToken = jwt.sign({ name: user.username }, process.env.ACCESS_TOKEN_SECRET)
             const refreshToken = jwt.sign({ name: user.username }, process.env.REFRESH_TOKEN_SECRET)
-            const data = {accessToken: accessToken, refreshToken: refreshToken}
             // refreshTokens.push(refreshToken)
-            return res.status(200).json(data)
+            return res.status(200).json({ successfullLogin : true, userId : user.id , accessToken : accessToken, refreshToken : refreshToken })
         } else {
             message = "Wrong password for this username."
-            // A changer en 401 avec les interceptors Axios
-            return res.status(200).json(message)
+            return res.status(401).json({successfullLogin : false, message : message})
         }
     })
     .catch((error : ApiException) => {
