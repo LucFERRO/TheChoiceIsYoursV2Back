@@ -67,10 +67,12 @@ const jwt = require('jsonwebtoken')
 function authenticateToken(req : Request, res : Response, next : NextFunction) {
     const authHeader = req.headers['authorization']
     const token = authHeader && authHeader.split(' ')[1]
-    if (token == null) return res.status(401).send('No token given')
+    let message = 'No token given'
+    if (token == null) return res.status(401).send({message})
 
     jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err : Error, user : any) => {
-        if (err) return res.status(403).send('Not logged in')
+        let message = 'Expired token.'
+        if (err) return res.status(403).send({message, data : err})
         req.user = user
         next()
     })
@@ -96,8 +98,8 @@ app.get('/api/users/test/:id', authenticateToken, (req : Request, res : Response
     User.findByPk(req.params.id)
     .then((user : userTypes )=> {
         if (user === null) {
-        const message = "Requested user does not exist."
-        return res.status(404).json({message})
+            const message = "Requested user does not exist."
+            return res.status(404).json({message})
         }
 
         const message : string = 'User found.'
