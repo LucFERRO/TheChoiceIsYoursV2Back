@@ -47,7 +47,7 @@ module.exports = (app: Application) => {
         }
         if (await bcrypt.compare(req.body.password, user.password)) {
             message = "Good"
-            const accessToken = jwt.sign({ name: user.username }, process.env.ACCESS_TOKEN_SECRET)
+            const accessToken = jwt.sign({ name: user.username }, process.env.ACCESS_TOKEN_SECRET, {expiresIn: '15s'})
             const refreshToken = jwt.sign({ name: user.username }, process.env.REFRESH_TOKEN_SECRET)
             // refreshTokens.push(refreshToken)
             return res.status(200).json({ successfullLogin : true, userId : user.id , accessToken : accessToken, refreshToken : refreshToken })
