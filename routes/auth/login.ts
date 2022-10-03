@@ -58,7 +58,7 @@ module.exports = (app: Application) => {
     })
     .catch((error : ApiException) => {
             const message = `Could not get users list.`
-            res.status(500).json({message, data : error})
+            res.status(500).json({message : message, data : error})
         })
 
     })

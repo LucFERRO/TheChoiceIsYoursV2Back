@@ -71,8 +71,8 @@ function authenticateToken(req : Request, res : Response, next : NextFunction) {
     if (token == null) return res.status(401).send({message})
 
     jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err : Error, user : any) => {
-        let message = 'Expired token.'
-        if (err) return res.status(403).send({message, data : err})
+        message = 'Expired token.'
+        if (err) return res.status(403).send({tokenIsExpired: true, message : message, data : err})
         req.user = user
         next()
     })
