@@ -1,8 +1,11 @@
 import { DataTypes } from "sequelize"
+import { tokenTypes } from "../types/token"
 import { userTypes } from "../types/user"
 let users = require('../database/mock-user')
+let tokens = require('../database/mock-token')
 const { Sequelize } = require('sequelize')
 const UserModel = require('../models/users')
+const TokenModel = require('../models/tokens')
 
 const sequelize = new Sequelize (
     'TheChoiceIsYoursSequelize',
@@ -27,8 +30,8 @@ sequelize.authenticate()
     )
 
 const User = UserModel(sequelize, DataTypes)
+const Token = TokenModel(sequelize, DataTypes)
 
-    
 const initDb = () => {
 
         return sequelize.sync({force: true}).then(()=> {
@@ -45,12 +48,18 @@ const initDb = () => {
                     profile_picture: user.profile_picture
                 }).then((response: { toJSON: () => string }) => console.log(response.toJSON()))
             })
+            tokens.map((token: tokenTypes) => {
+                Token.create({
+                    refreshToken: token.refreshToken
+                }).then((response: { toJSON: () => string }) => console.log(response.toJSON()))
+            })
+
             console.log('Database created')
     })
 }
 
-
 module.exports = {
     initDb, 
-    User
+    User,
+    Token
 }

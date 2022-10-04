@@ -11,12 +11,14 @@ export interface userTypes{
 
 }
 
+
 export interface userId extends userTypes {
 
     id : number;
 
 }
 
+// A VIRER
 export interface User {
     username: string;
     password: string;
