@@ -34,6 +34,9 @@ const Token = TokenModel(sequelize, DataTypes)
 
 const initDb = () => {
 
+        // User.hasOne(Token)
+        User.hasOne(Token)
+
         return sequelize.sync({force: true}).then(()=> {
             
             users.map((user: userTypes) => {
