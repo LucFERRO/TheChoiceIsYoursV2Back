@@ -48,6 +48,11 @@ const swaggerOptions = {
 const swaggerDocs = swaggerJsDoc(swaggerOptions)
 app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs))
 
+require('./routes/tokens/findAllTokens')(app)
+require('./routes/tokens/findTokenByPk')(app)
+require('./routes/tokens/createToken')(app)
+require('./routes/tokens/deleteToken')(app)
+
 require('./routes/users/findAllUsers')(app)
 require('./routes/users/findUserByPk')(app)
 require('./routes/users/createUser')(app)
