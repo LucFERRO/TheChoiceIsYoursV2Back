@@ -2,6 +2,7 @@ import { Application } from "express";
 import { ValidationError } from "sequelize";
 import { ApiException } from "../../types/exception";
 import { userTypes } from "../../types/user";
+const bcrypt = require('bcrypt')
 
 const { User } = require('../../database/connect')
 
@@ -29,9 +30,19 @@ const { User } = require('../../database/connect')
   *          description: Update the user of given id.
   */
 module.exports = (app: Application) => {
-  app.put("/api/users/:id", (req, res) => {
+  app.put("/api/users/:id", async (req, res) => {
     const id = req.params.id;
-    User.update(req.body, {
+    const { username, firstname, lastname, date_of_birth, email, profile_picture } = req.body
+    let hashedPassword = await bcrypt.hash(req.body.password, 10);
+    User.update({ 
+        username : username, 
+        password : hashedPassword, 
+        firstname : firstname, 
+        lastname : lastname, 
+        date_of_birth : date_of_birth, 
+        email : email, 
+        profile_picture : profile_picture
+    }, {
       where: { id: id },
     })
       .then(() => {
