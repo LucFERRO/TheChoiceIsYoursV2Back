@@ -6,7 +6,7 @@ const users = [
     firstname: "Luc",
     lastname: "FERRO",
     date_of_birth: "1997-15-05",
-    biography: null,
+    biography: "I love CSS.",
     profile_picture: null
   },
   {
@@ -16,7 +16,7 @@ const users = [
     firstname: "Luc",
     lastname: "Vigneron",
     date_of_birth: "1999-27-04",
-    biography: null,
+    biography: "Sybairpink addict",
     profile_picture: null
   },
   {
@@ -26,7 +26,7 @@ const users = [
     firstname: "Alexis",
     lastname: "Cuvillier",
     date_of_birth: "1996-11-09",
-    biography: null,
+    biography: "Claquette chaussette",
     profile_picture: null
   },
 ];
