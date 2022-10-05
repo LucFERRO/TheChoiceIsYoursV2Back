@@ -35,6 +35,9 @@ const { User } = require('../../database/connect')
 module.exports = (app: Application) => {
   app.post("/api/users", async (req, res) => {
     const { username, firstname, lastname, biography, date_of_birth, email, profile_picture } = req.body
+
+    if (!req.body.password) return res.status(400).json({passwordRequired: true,message : 'Password is required.'})
+
     let hashedPassword = await bcrypt.hash(req.body.password, 10);
     User.create({ 
         username : username, 

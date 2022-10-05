@@ -33,6 +33,9 @@ module.exports = (app: Application) => {
   app.put("/api/users/:id", async (req, res) => {
     const id = req.params.id;
     const { username, firstname, lastname, date_of_birth, biography, email, profile_picture } = req.body
+
+    if (!req.body.password) return res.status(400).json({passwordRequired: true,message : 'Password is required.'})
+    
     let hashedPassword = await bcrypt.hash(req.body.password, 10);
     User.update({ 
         username : username, 
