@@ -5,7 +5,7 @@ const users = [
     password: "$2b$10$NUOQNvbDfEO8EnvvRmI8oOhBjNPyARSE3H2Bya73s7U7wd7vkZGYm",
     firstname: "Luc",
     lastname: "FERRO",
-    date_of_birth: "2004-12-31T23:00:00.000Z",
+    date_of_birth: "1997-15-05",
     biography: null,
     profile_picture: null
   },
@@ -15,7 +15,7 @@ const users = [
     password: "$2b$10$NUOQNvbDfEO8EnvvRmI8oOhBjNPyARSE3H2Bya73s7U7wd7vkZGYm",
     firstname: "Luc",
     lastname: "Vigneron",
-    date_of_birth: "2004-12-31T23:00:00.000Z",
+    date_of_birth: "1999-27-04",
     biography: null,
     profile_picture: null
   },
@@ -25,7 +25,7 @@ const users = [
     password: "$2b$10$NUOQNvbDfEO8EnvvRmI8oOhBjNPyARSE3H2Bya73s7U7wd7vkZGYm",
     firstname: "Alexis",
     lastname: "Cuvillier",
-    date_of_birth: "2004-12-31T23:00:00.000Z",
+    date_of_birth: "1996-11-09",
     biography: null,
     profile_picture: null
   },

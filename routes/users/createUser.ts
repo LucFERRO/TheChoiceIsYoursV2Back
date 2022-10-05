@@ -34,12 +34,13 @@ const { User } = require('../../database/connect')
   */
 module.exports = (app: Application) => {
   app.post("/api/users", async (req, res) => {
-    const { username, firstname, lastname, date_of_birth, email, profile_picture } = req.body
+    const { username, firstname, lastname, biography, date_of_birth, email, profile_picture } = req.body
     let hashedPassword = await bcrypt.hash(req.body.password, 10);
     User.create({ 
         username : username, 
         password : hashedPassword, 
         firstname : firstname, 
+        biography: biography,
         lastname : lastname, 
         date_of_birth : date_of_birth, 
         email : email, 

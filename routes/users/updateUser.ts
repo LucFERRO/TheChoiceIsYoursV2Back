@@ -32,7 +32,7 @@ const { User } = require('../../database/connect')
 module.exports = (app: Application) => {
   app.put("/api/users/:id", async (req, res) => {
     const id = req.params.id;
-    const { username, firstname, lastname, date_of_birth, email, profile_picture } = req.body
+    const { username, firstname, lastname, date_of_birth, biography, email, profile_picture } = req.body
     let hashedPassword = await bcrypt.hash(req.body.password, 10);
     User.update({ 
         username : username, 
@@ -40,6 +40,7 @@ module.exports = (app: Application) => {
         firstname : firstname, 
         lastname : lastname, 
         date_of_birth : date_of_birth, 
+        biography : biography,
         email : email, 
         profile_picture : profile_picture
     }, {
