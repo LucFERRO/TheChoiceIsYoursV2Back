@@ -34,11 +34,16 @@ const Token = TokenModel(sequelize, DataTypes)
 
 const initDb = () => {
 
-        // User.hasOne(Token)
-        User.hasOne(Token)
+        Token.hasOne(User, {as: 'token'})
+        Token.belongsTo(User)
 
         return sequelize.sync({force: true}).then(()=> {
-            
+
+            tokens.map((token: tokenTypes) => {
+                Token.create({
+                    refreshToken: token.refreshToken
+                }).then((response: { toJSON: () => string }) => console.log(response.toJSON()))
+            })
             users.map((user: userTypes) => {
                 User.create({
                     username: user.username,
@@ -48,12 +53,8 @@ const initDb = () => {
                     date_of_birth: user.date_of_birth,
                     email: user.email,
                     biography: user.biography,
-                    profile_picture: user.profile_picture
-                }).then((response: { toJSON: () => string }) => console.log(response.toJSON()))
-            })
-            tokens.map((token: tokenTypes) => {
-                Token.create({
-                    refreshToken: token.refreshToken
+                    profile_picture: user.profile_picture,
+                    tokenId: user.tokenId
                 }).then((response: { toJSON: () => string }) => console.log(response.toJSON()))
             })
 
