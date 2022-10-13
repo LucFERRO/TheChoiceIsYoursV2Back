@@ -19,7 +19,7 @@ const { User } = require('../../database/connect')
   * /api/users:
   *  post:
   *      tags: [Users]
-  *      description: Add an template
+  *      description: Add an user
   *      consumes:
   *       - application/json
   *      parameters:
