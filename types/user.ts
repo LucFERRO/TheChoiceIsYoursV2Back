@@ -8,7 +8,6 @@ export interface userTypes{
     date_of_birth : string;
     biography : string;
     profile_picture : string;
-    tokenId : number;
 }
 
 

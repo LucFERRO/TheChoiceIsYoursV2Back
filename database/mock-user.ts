@@ -7,8 +7,7 @@ const users = [
     lastname: "FERRO",
     date_of_birth: "1997-05-15",
     biography: "I love CSS.",
-    profile_picture: null,
-    tokenId: 1
+    profile_picture: null
   },
   {
     username: "Sakou",
@@ -18,8 +17,7 @@ const users = [
     lastname: "Vigneron",
     date_of_birth: "1999-04-27",
     biography: "Sybairpink addict",
-    profile_picture: null,
-    tokenId: 2
+    profile_picture: null
   },
   {
     username: "Astroweed",
@@ -30,7 +28,6 @@ const users = [
     date_of_birth: "1996-09-11",
     biography: "Claquette chaussette",
     profile_picture: null,
-    tokenId: 3
   },
 ];
 
