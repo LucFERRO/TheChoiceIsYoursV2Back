@@ -11,9 +11,9 @@ module.exports = (sequelize : Sequelize, dataTypes : typeof DataTypes) => {
     return sequelize.define('Token', {
 
         id: {
-        type: dataTypes.INTEGER,
-        autoIncrement: true,
-        primaryKey: true, 
+            type: dataTypes.INTEGER,
+            autoIncrement: true,
+            primaryKey: true, 
         },
         refreshToken: {
             type: dataTypes.STRING,
@@ -21,6 +21,14 @@ module.exports = (sequelize : Sequelize, dataTypes : typeof DataTypes) => {
             validate: {
                 notNull: { msg : concatRequiredMessage('Token')},
                 notEmpty : { msg : concatRequiredMessage('Token')}
+            }
+        },
+        username: {
+            type: dataTypes.STRING,
+            allowNull: false,
+            validate: {
+                notNull: { msg : concatRequiredMessage('Username')},
+                notEmpty : { msg : concatRequiredMessage('Username')}
             }
         }
     })

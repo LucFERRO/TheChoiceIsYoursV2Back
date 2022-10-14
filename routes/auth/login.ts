@@ -3,10 +3,10 @@ import { ValidationError } from "sequelize";
 import { ApiException } from "../../types/exception";
 import { userTypes } from "../../types/user";
 import { tokenTypes } from "../../types/token";
-const bcrypt = require('bcrypt')
-const jwt = require('jsonwebtoken')
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
-const { User, Token } = require('../../database/connect')
+const { User, Token } = require("../../database/connect");
 
 /**
  * @swagger
@@ -16,78 +16,115 @@ const { User, Token } = require('../../database/connect')
  */
 
 /**
-  * @openapi
-  * /api/auth/login:
-  *  post:
-  *      tags: [Authentification]
-  *      description: Login
-  *      consumes:
-  *       - application/json
-  *      parameters:
-  *       - name: JSON
-  *         in: body
-  *         required: true
-  *         type: object
-  *         default: {"username": "string", "password": "string"}
-  *      responses:
-  *        200:
-  *          description: Login. Returns tokens if successful login.
-  */
+ * @openapi
+ * /api/auth/login:
+ *  post:
+ *      tags: [Authentification]
+ *      description: Login
+ *      consumes:
+ *       - application/json
+ *      parameters:
+ *       - name: JSON
+ *         in: body
+ *         required: true
+ *         type: object
+ *         default: {"username": "string", "password": "string"}
+ *      responses:
+ *        200:
+ *          description: Login. Returns tokens if successful login.
+ */
 module.exports = (app: Application) => {
-  app.post("/api/auth/login", (req, res) => {
+    app.post("/api/auth/login", (req, res) => {
+        User.findAll().then(async (users: any) => {
+            const user = users.find(
+                (user: userTypes) => user.username == req.body.username
+            );
+            let message: string = "";
 
-    User.findAll()
-    .then(async (users: any) => {
+            if (user == null) {
+                message = "No such username exists.";
+                return res
+                    .status(400)
+                    .json({ userFound: false, message: message });
+            }
+            if (await !bcrypt.compare(req.body.password, user.password)) {
+                message = "Wrong password for this username.";
+                return res
+                    .status(401)
+                    .json({ successfullLogin: false, message: message });
+            } else {
+                message = "Good";
+                const accessToken = jwt.sign(
+                    { name: user.username },
+                    process.env.ACCESS_TOKEN_SECRET,
+                    { expiresIn: "15s" }
+                );
+                const refreshToken = jwt.sign(
+                    { name: user.username },
+                    process.env.REFRESH_TOKEN_SECRET
+                );
 
-        const user = users.find((user : userTypes) => user.username == req.body.username)
-        let message : string = ''
-        
-        if (user == null) {
-            message = 'No such username exists.'
-            return res.status(400).json({ userFound : false, message : message })
-        }
-        if (await bcrypt.compare(req.body.password, user.password)) {
-            message = "Good"
-            const accessToken = jwt.sign({ name: user.username }, process.env.ACCESS_TOKEN_SECRET, {expiresIn: '15s'})
-            const refreshToken = jwt.sign({ name: user.username }, process.env.REFRESH_TOKEN_SECRET)
+                Token.findOne({ where: { username: user.username } }).then(
+                    (token: tokenTypes) => {
+                        if (token === null) {
+                            const message = "Requested token does not exist.";
+                            return res.status(404).json({ message });
+                        }
+                        // A VOIR ?
+                        Token.destroy({
+                            where: { username: user.username },
+                        }).then(() => {
+                            Token.create({
+                                refreshToken : refreshToken,
+                                username : user.username
+                            }).then((token: tokenTypes) => {
+                                const message: string = `Refresh token successfully replaced.`;
+                                // res.json({ message, data: token });
+                                return res
+                                .status(200)
+                                .json({
+                                    successfullLogin: true,
+                                    userId: user.id,
+                                    accessToken: accessToken,
+                                    refreshToken: refreshToken,
+                                    oldToken: token,
+                                    message: message
+                                });
+                                })
+                            // const message = `Token successfully DELETED.`;
+                            // res.json({message, data: token })
+                            // return res
+                            //     .status(200)
+                            //     .json({
+                            //         successfullLogin: true,
+                            //         userId: user.id,
+                            //         accessToken: accessToken,
+                            //         refreshToken: refreshToken,
+                            //     });
+                        });
 
-            // Token.findByPk(user.tokenId)
-            // .then((token : tokenTypes )=> {
-            //   if (token === null){
-                // const message = "Requested token does not exist."
-                // return res.status(404).json({message})
+                        // //   User.update({
+                        // //     tokenId : truc
+                        // // }, {
+                        // //   where: { id: user.id },
+                        // // })
 
-                // A VOIR ?
-            //   }
-      
-            //   Token.destroy({
-            //     where: { id: user.tokenId }
-            //   })
-
-            //   User.update({ 
-            //     tokenId : 
-            // }, {
-            //   where: { id: user.id },
-            // })
-
-            //TEJ LE VIEUX
-            //REMPLACER PAR NOUVEAU TOKEN REFRESH
-            // })
-            // .catch((error : ApiException ) => {
-            //   const message = "Cannot find token."
-            //   res.status(500).json({message, data: error})
-            // })
-
-            return res.status(200).json({ successfullLogin : true, userId : user.id , accessToken : accessToken, refreshToken : refreshToken })
-        } else {
-            message = "Wrong password for this username."
-            return res.status(401).json({successfullLogin : false, message : message})
-        }
-    })
-    .catch((error : ApiException) => {
-            const message = `Could not get users list.`
-            res.status(500).json({message : message, data : error})
-        })
-
-    })
+                        // //TEJ LE VIEUX
+                        // //REMPLACER PAR NOUVEAU TOKEN REFRESH
+                        // // })
+                        // // .catch((error : ApiException ) => {
+                        // //   const message = "Cannot find token."
+                        // //   res.status(500).json({message, data: error})
+                        // // })
+                        // return res.status(200).json({ successfullLogin : true, userId : user.id , accessToken : accessToken, refreshToken : refreshToken })
+                        // })
+                        // .catch((error : ApiException) => {
+                        //         const message = `Could not get users list.`
+                        //         res.status(500).json({message : message, data : error})
+                        //     });
+                    }
+                );
+            }
+        });
+    });
 };

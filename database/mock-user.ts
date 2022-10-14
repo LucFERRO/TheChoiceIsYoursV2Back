@@ -27,7 +27,7 @@ const users = [
     lastname: "Cuvillier",
     date_of_birth: "1996-09-11",
     biography: "Claquette chaussette",
-    profile_picture: null,
+    profile_picture: null
   },
 ];
 

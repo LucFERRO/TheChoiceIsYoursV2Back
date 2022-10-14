@@ -19,7 +19,7 @@ const { Token } = require('../../database/connect')
   * /api/tokens:
   *  post:
   *      tags: [Tokens]
-  *      description: Add an token
+  *      description: Add a token
   *      consumes:
   *       - application/json
   *      parameters:
@@ -27,16 +27,17 @@ const { Token } = require('../../database/connect')
   *         in: body
   *         required: true
   *         type: object
-  *         default: {    "refreshToken": "string"}
+  *         default: {    "refreshToken": "string", "username" : "string"  }
   *      responses:
   *        200:
   *          description: Create a new token.
   */
 module.exports = (app: Application) => {
   app.post("/api/tokens", async (req, res) => {
-    const { refreshToken } = req.body
+    const { refreshToken, username } = req.body
     Token.create({ 
         refreshToken : refreshToken, 
+        username : username
     }).then((token: tokenTypes) => {
         const message: string = `Refresh token successfully created.`;
         res.json({ message, data: token });
