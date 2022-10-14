@@ -29,6 +29,16 @@ const users = [
     biography: "Claquette chaussette",
     profile_picture: null
   },
+  {
+    username: "test",
+    email: "test@test.fr",
+    password: "$2b$10$NUOQNvbDfEO8EnvvRmI8oOhBjNPyARSE3H2Bya73s7U7wd7vkZGYm",
+    firstname: "tes",
+    lastname: "test",
+    date_of_birth: "1990-09-11",
+    biography: "test test",
+    profile_picture: null
+  }
 ];
 
 module.exports = users;

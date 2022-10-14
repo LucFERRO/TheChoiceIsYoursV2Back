@@ -1,6 +1,6 @@
 import { Application } from "express";
 import { ApiException } from "../../types/exception";
-import { userId } from "../../types/user";
+import { userTypes } from "../../types/user";
 
 const { User } = require('../../database/connect')
   
@@ -22,7 +22,7 @@ const { User } = require('../../database/connect')
   */
 module.exports = (app :Application) => {
   app.delete('/api/users/:id', (req, res) => {
-    User.findByPk(req.params.id).then((user: userId) => {
+    User.findByPk(req.params.id).then((user: userTypes) => {
       if (user === null){
         const message = "Requested user does not exist."
         return res.status(404).json({message : message})

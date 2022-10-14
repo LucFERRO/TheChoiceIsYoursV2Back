@@ -1,13 +1,7 @@
 export interface tokenTypes{
 
+    id : number;
     refreshToken : string;
     username : string;
-
-}
-
-
-export interface tokenId extends tokenTypes {
-
-    id : number;
 
 }

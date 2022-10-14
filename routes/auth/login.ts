@@ -66,42 +66,42 @@ module.exports = (app: Application) => {
 
                 Token.findOne({ where: { username: user.username } }).then(
                     (token: tokenTypes) => {
-                        if (token === null) {
-                            const message = "Requested token does not exist.";
-                            return res.status(404).json({ message });
+                        if (token !== null) {
+                            Token.destroy({where: { username: user.username },})
+                            // .then(() => {
+                                // const message = `Token successfully DELETED.`;
+                                // res.json({message, data: token })
+                                // return res
+                                //     .status(200)
+                                //     .json({
+                                //         successfullLogin: true,
+                                //         userId: user.id,
+                                //         accessToken: accessToken,
+                                //         refreshToken: refreshToken,
+                                //     });
+                            // });
+                            // const message = "Requested token does not exist.";
+                            // return res.status(404).json({ message });
                         }
+
+                        Token.create({
+                            refreshToken : refreshToken,
+                            username : user.username
+                        }).then((token: tokenTypes) => {
+                            const message: string = `Refresh token successfully replaced.`;
+                            // res.json({ message, data: token });
+                            return res
+                            .status(200)
+                            .json({
+                                successfullLogin: true,
+                                userId: user.id,
+                                accessToken: accessToken,
+                                refreshToken: refreshToken,
+                                message: message,
+                                oldToken: token,
+                            });
+                        })
                         // A VOIR ?
-                        Token.destroy({
-                            where: { username: user.username },
-                        }).then(() => {
-                            Token.create({
-                                refreshToken : refreshToken,
-                                username : user.username
-                            }).then((token: tokenTypes) => {
-                                const message: string = `Refresh token successfully replaced.`;
-                                // res.json({ message, data: token });
-                                return res
-                                .status(200)
-                                .json({
-                                    successfullLogin: true,
-                                    userId: user.id,
-                                    accessToken: accessToken,
-                                    refreshToken: refreshToken,
-                                    oldToken: token,
-                                    message: message
-                                });
-                                })
-                            // const message = `Token successfully DELETED.`;
-                            // res.json({message, data: token })
-                            // return res
-                            //     .status(200)
-                            //     .json({
-                            //         successfullLogin: true,
-                            //         userId: user.id,
-                            //         accessToken: accessToken,
-                            //         refreshToken: refreshToken,
-                            //     });
-                        });
 
                         // //   User.update({
                         // //     tokenId : truc

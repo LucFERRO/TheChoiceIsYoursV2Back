@@ -1,5 +1,6 @@
 export interface userTypes{
 
+    id : number;
     username : string;
     password : string;
     firstname : string;
@@ -7,15 +8,10 @@ export interface userTypes{
     email : string;
     date_of_birth : string;
     biography : string;
-    profile_picture : string;
+    profile_picture : string;   
+     
 }
 
-
-export interface userId extends userTypes {
-
-    id : number;
-
-}
 
 // A VIRER
 export interface User {

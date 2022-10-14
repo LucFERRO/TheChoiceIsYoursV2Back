@@ -1,6 +1,6 @@
 import { Application } from "express";
 import { ApiException } from "../../types/exception";
-import { tokenId } from "../../types/token";
+import { tokenTypes } from "../../types/token";
 
 const { Token } = require('../../database/connect')
   
@@ -22,7 +22,7 @@ const { Token } = require('../../database/connect')
   */
 module.exports = (app :Application) => {
   app.delete('/api/tokens/:id', (req, res) => {
-    Token.findByPk(req.params.id).then((token: tokenId) => {
+    Token.findByPk(req.params.id).then((token: tokenTypes) => {
       if (token === null){
         const message = "Requested token does not exist."
         return res.status(404).json({message : message})
