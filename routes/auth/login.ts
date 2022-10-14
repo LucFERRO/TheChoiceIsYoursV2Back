@@ -67,7 +67,8 @@ module.exports = (app: Application) => {
                 Token.findOne({ where: { username: user.username } }).then(
                     (token: tokenTypes) => {
                         if (token !== null) {
-                            Token.destroy({where: { username: user.username },})
+                            // Token.destroy({where: { username: user.username },})
+                            Token.destroy({where: { userId: user.id },})
                             // .then(() => {
                                 // const message = `Token successfully DELETED.`;
                                 // res.json({message, data: token })
@@ -86,7 +87,8 @@ module.exports = (app: Application) => {
 
                         Token.create({
                             refreshToken : refreshToken,
-                            username : user.username
+                            username : user.username,
+                            userId : user.id
                         }).then((token: tokenTypes) => {
                             const message: string = `Refresh token successfully replaced.`;
                             // res.json({ message, data: token });
