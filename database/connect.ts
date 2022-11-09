@@ -9,8 +9,8 @@ const TokenModel = require('../models/tokens')
 
 const sequelize = new Sequelize (
     'TheChoiceIsYoursSequelize',
-    'neo',
-    'neoneo',
+    'postgres',
+    'postgres',
     {
         host:'localhost',
         dialect:'postgres',
