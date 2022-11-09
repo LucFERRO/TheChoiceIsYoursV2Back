@@ -47,7 +47,7 @@ module.exports = (app: Application) => {
                     .status(400)
                     .json({ userFound: false, message: message });
             }
-            if (await !bcrypt.compare(req.body.password, user.password)) {
+            if (!await bcrypt.compare(req.body.password, user.password)) {
                 message = "Wrong password for this username.";
                 return res
                     .status(401)
